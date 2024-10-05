@@ -1,3 +1,5 @@
+import _axios from "./src/v1/services/axios";
+
 const selectImage = document.querySelector('.select-image');
 const inputFile = document.querySelector('#file');
 const imgArea = document.querySelector('.img-area');
@@ -7,6 +9,7 @@ selectImage.addEventListener( 'click', function() {
 })
 inputFile.addEventListener('change', function() {
     const image = this.files[0]
+    predict(image)
     console.log(image);
     const reader = new FileReader();
     reader.onload = ()=> {
@@ -26,3 +29,60 @@ document.querySelector('.navbar a').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default anchor behavior
     window.location.href = 'history.html'; // Redirect to the history page
 });
+
+/*
+*   Image validator & fetch predict api function
+*   @version 1.0
+*   @author GooDu-Dev <https://github.com/GooDu-dev>
+*/
+
+function checkImage(file) {
+    // you can modify from this function to check valid image
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            const arr = (new Uint8Array(reader.result)).subarray(0, 4);
+            let header = "";
+            for (let i = 0; i < arr.length; i++) {
+                header += arr[i].toString(16);
+            }
+
+            // Check for common image file signatures
+            const imageSignatures = {
+                jpg: "ffd8ffe0",
+                png: "89504e47",
+                jpeg: "ffd8"
+            };
+
+            for (const [ext, sig] of Object.entries(imageSignatures)) {
+                if (header.startsWith(sig)) {
+                    resolve(ext); // Return the image type
+                }
+            }
+            resolve(null); // Not an image
+        };
+        reader.onerror = () => reject(new Error("Failed to read file"));
+        reader.readAsArrayBuffer(file); // Read file as ArrayBuffer
+    });
+}
+
+async function predict(img) {
+    // please handle img before send to this function
+    /*
+    *   Things to handle
+    *   1. img is not null | undefined
+    *   2. img is sent as file
+    *   3. img is image, not others type
+    * 
+    *   I wrote sample image validator above you can modify or use that
+    */
+   const response = await _axios.post('/predict/', {
+    "file": img
+   })
+   // If there is an error, return ""
+   if(!response) {
+    return ""
+   }
+   // if nothing wrong, return data from backenf
+   return response.data
+}

@@ -1,4 +1,4 @@
-import _axios from "./src/v1/services/axios";
+import _axios from "./src/v1/services/axios.js"
 
 const selectImage = document.querySelector('.select-image');
 const inputFile = document.querySelector('#file');

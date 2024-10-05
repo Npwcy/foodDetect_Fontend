@@ -5,7 +5,7 @@
  * @author GooDu-Dev <https://github.com/GooDu-dev>
  */
 
-import * as constant from './constant.js';
+import * as constant from '../utils/constant.js';
 
 class Axios {
     /**
@@ -26,7 +26,10 @@ class Axios {
 
         // send post request via axios
         // need to import https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js
-        return axios.post(constant.API_URL + path, body)
+        return fetch(constant.API_URL + path, {
+            method: 'POST',
+            body: JSON.stringify(body)
+        })
             .then(response => {
                 if(!response){
                     throw new Error("Something went wrong")
@@ -34,7 +37,7 @@ class Axios {
                 if(response.status !== "success"){
                     throw new Error(response)
                 }
-                return response
+                return response.json()
             })
             .catch(err => {
                 console.log(err)
@@ -57,10 +60,12 @@ class Axios {
             console.log("Invalid request path or params")
             return null
         }
+        
+        const queryParams = new URLSearchParams(params).toString()
 
         // send get request via axios
         // need to import https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js
-        return  axios.get(constant.API_URL + path, params)
+        return  fetch(constant.API_URL + path + `?${queryParams}`)
             .then(response => {
                 if(!response){
                     throw new Error("Something went wrong")
@@ -68,7 +73,7 @@ class Axios {
                 if(response.status !== "success"){
                     throw new Error(response)
                 }
-                return response
+                return response.json()
             })
             .catch(err => {
                 console.log(err)

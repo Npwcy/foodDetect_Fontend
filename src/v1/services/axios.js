@@ -14,30 +14,41 @@ class Axios {
      * @param {object} body 
      * @returns {object | null}
     **/
-    post(path, body) {
+    post(path, body = {"method": 'post'}) {
         // check is valid path and body
-        const isPath = this.#checkPath(path)
+        const _url = constant.API_URL + path
+        const isPath = this.#checkPath(_url)
         const isBody = this.#checkBodyOrParams(body)
+        
+        const options = {
+            method: 'POST',
+            header: {
+                'Content-Type': "application/json",
+            },
+            body: body,
+            credentials: 'include',
+            referrerPolicy: 'no-referrer'
+        }
 
         if(!isPath || !isBody){
             console.log("Invalid request path or body")
             return null
         }
+        if(body instanceof FormData){
+            options.header['Content-Type'] = 'multipart/form-data'
+        }
 
-        // send post request via axios
-        // need to import https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js
-        return fetch(constant.API_URL + path, {
-            method: 'POST',
-            body: JSON.stringify(body)
-        })
+        return fetch(_url, options)
+            .then(response => response.json())
             .then(response => {
+                console.log(response)
                 if(!response){
                     throw new Error("Something went wrong")
                 }
                 if(response.status !== "success"){
                     throw new Error(response)
                 }
-                return response.json()
+                return response
             })
             .catch(err => {
                 console.log(err)
@@ -63,9 +74,16 @@ class Axios {
         
         const queryParams = new URLSearchParams(params).toString()
 
-        // send get request via axios
-        // need to import https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js
-        return  fetch(constant.API_URL + path + `?${queryParams}`)
+        return  fetch(constant.API_URL + path + `?${queryParams}`, {
+            method: "GET",
+            headers: {
+                'Access-Control-Allow-Origin': '*', // or a specific origin
+                'Content-Type': 'application/json' // adjust as necessary
+            },
+            credentials: 'include',
+            referrerPolicy: 'no-referrer'
+        })
+            .then(response => response.json())
             .then(response => {
                 if(!response){
                     throw new Error("Something went wrong")

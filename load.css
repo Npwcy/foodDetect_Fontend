@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ppoins", sans-serif;
+}
+body{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(68,215,221,1) 0%, rgba(25,171,255,1) 98%);
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+}
+.logo{
+    background-position: center;
+    background-size: cover;
+}
+
+.loader {
+    width: fit-content;
+    font-size: 40px;
+    line-height: 1.5;
+    font-family: system-ui,sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffffff00;
+    -webkit-text-stroke: 1px #ffffff;
+    background:
+      radial-gradient(1.13em at 50% 1.6em,#ffffff 99%,#ffffff00 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+      radial-gradient(1.13em at 50% -0.8em,#ffffff00 99%,#ffffff 101%) 50% .8em/3.2em 100% repeat-x  text;
+    animation: l9 2s linear infinite;
+  }
+  .loader:before {
+    content: "Loading";
+  }
+  @keyframes l9 {
+    to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
+  }

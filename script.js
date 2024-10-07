@@ -3,14 +3,16 @@ import _axios from "./src/v1/services/axios.js"
 const selectImage = document.querySelector('.select-image');
 const inputFile = document.querySelector('#file');
 const imgArea = document.querySelector('.img-area');
+const submitImage = document.querySelector('.submit');
+let uploadImage;
 
 selectImage.addEventListener( 'click', function() {
     inputFile.click();
 })
+
 inputFile.addEventListener('change', function() {
     const image = this.files[0]
-    predict(image)
-    console.log(image);
+    uploadImage = image;
     const reader = new FileReader();
     reader.onload = ()=> {
         const allImg = imgArea.querySelectorAll('img');
@@ -23,6 +25,27 @@ inputFile.addEventListener('change', function() {
         imgArea.dataset.img = image.name;
     }
     reader.readAsDataURL(image);
+})
+
+submitImage.addEventListener( 'click', function() {
+    predict(uploadImage)
+    console.log(uploadImage);
+
+    var popup = document.getElementById('myPopup');
+    popup.style.display = 'block';
+    
+    // ปิด Popup เมื่อคลิกปุ่ม X
+    var closeBtn = document.getElementsByClassName('close')[0];
+    closeBtn.onclick = function () {
+        popup.style.display = 'none';
+    }
+
+    // ปิด Popup เมื่อคลิกภายนอก Popup
+    window.onclick = function (event) {
+        if (event.target === popup) {
+            popup.style.display = 'none';
+        }
+    }
 })
 
 document.querySelector('.navbar a').addEventListener('click', function(event) {

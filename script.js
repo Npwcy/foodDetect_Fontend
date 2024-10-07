@@ -47,9 +47,9 @@ function handleImageUpload(image) {
     }
 };
 
-submitImage.addEventListener( 'click', function() {
-    predict(uploadImage)
-    console.log(uploadImage);
+submitImage.addEventListener( 'click', async function() {
+    let { result } = await predict(uploadImage)
+    console.log(result);
 
     var popup = document.getElementById('myPopup');
     popup.style.display = 'block';
@@ -65,6 +65,36 @@ submitImage.addEventListener( 'click', function() {
         if (event.target === popup) {
             popup.style.display = 'none';
         }
+    }
+
+    // change result text
+    let f_type = document.querySelector("#f_type")
+    let f_status = document.querySelector("#f_status")
+    f_type.innerText = "Product Type : "
+    f_status.innerText = "Status : "
+    if(result.includes("fresh")){
+        let list = result.split("fresh_")[1]
+        f_status.innerText += " Fresh"
+        list = list.split("_")
+        // list[0] = list[0][0].toUpperCase() + list[0].slice(1)
+        for(let l of list){
+            f_type.innerText += " " + l 
+        }
+    }
+    else if(result.includes('stale')){
+        let list = result.split("stale_")[1]
+        f_status.innerText += " Stale"
+        list = list.split("_")
+        list[0] = list[0][0].toUpperCase() + list[0].slice(1)
+        for(let l of list){
+            f_type.innerText += " " + l 
+        }
+        let f_name = f_type.innerText.split("Product Type : ")[1].toLowerCase()
+        let date = new Date().toISOString().split('T')[0];
+        let formData = new FormData()
+        formData.append("name", f_name)
+        formData.append("date", date)
+        await _axios.post('/item/create', formData)
     }
 })
 

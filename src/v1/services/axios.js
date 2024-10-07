@@ -19,7 +19,7 @@ class Axios {
         const _url = constant.API_URL + path
         const isPath = this.#checkPath(_url)
         const isBody = this.#checkBodyOrParams(body)
-        
+
         const options = {
             method: 'POST',
             header: {
@@ -65,20 +65,20 @@ class Axios {
     get(path, params) {
         // check is valid path and params
         const isPath = this.#checkPath(path)
-        const isParam = this.#checkBodyOrParams(body)
 
-        if(!isPath || !isParam){
+        if(!isPath){
             console.log("Invalid request path or params")
             return null
         }
         
-        const queryParams = new URLSearchParams(params).toString()
-
-        return  fetch(constant.API_URL + path + `?${queryParams}`, {
+        let queryParams = new URLSearchParams(params).toString()
+        if(params){
+            queryParams = "?" + queryParams;
+        }
+        return  fetch(constant.API_URL + path + `${queryParams}`, {
             method: "GET",
             headers: {
-                'Access-Control-Allow-Origin': '*', // or a specific origin
-                'Content-Type': 'application/json' // adjust as necessary
+                'Content-Type': 'application/json', // adjust as necessary
             },
             credentials: 'include',
             referrerPolicy: 'no-referrer'
@@ -91,7 +91,7 @@ class Axios {
                 if(response.status !== "success"){
                     throw new Error(response)
                 }
-                return response.json()
+                return response
             })
             .catch(err => {
                 console.log(err)

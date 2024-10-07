@@ -11,35 +11,37 @@
 
 <body>
     <div class="bg"></div>
-    <header class="header">
+    <nav class="header">
         <img src="img/logo.png" class="logo">
         <nav class="navbar">
             <a href="#">History</a>
         </nav>
-    </header>
+    </nav>
 
     <!-- Title and description outside the container -->
-    <div class="claim-info">
-        <h1 class="main-title">Product Claim System</h1>
-        <p class="description">Select the product image you wish to claim, then confirm your selection. Once submitted,
-            the information will be sent to the Doraemon admin team. Please wait for a response regarding your claim.
-        </p>
-    </div>
-
-    <div class="container">
-        <input type="file" id="file" accept="image/*" hidden>
-        <div class="img-area" data-img="">
-            <i class='bx bxs-cloud-upload icon'></i>
-            <h3>Drop your image here or Upload Image</h3>
+    <div class="main-container" style="margin-top: 4rem;">
+        <div class="claim-info">
+            <h1 class="main-title">Product Claim System</h1>
+            <p class="description">Select the product image you wish to claim, then confirm your selection. Once submitted,
+                the information will be sent to the Doraemon admin team. Please wait for a response regarding your claim.
+            </p>
         </div>
-        <button class="select-image">Select Image</button>
-        <button class="submit">Submit</button>
+    
+        <div class="container">
+            <input type="file" id="file" accept="image/*" hidden>
+            <div class="img-area" data-img="">
+                <i class='bx bxs-cloud-upload icon'></i>
+                <h3 style="text-align: center; ">Drop your image here or Upload Image</h3>
+            </div>
+            <button class="select-image">Select Image</button>
+            <button class="submit">Submit</button>
+        </div>
     </div>
     <div id="myPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <p>Product Type : ahahahahaha</p>
-            <p>Status : rotten or fresh</p>
+            <p id="f_type">Product Type : </p>
+            <p id="f_status">Status : </p>
         </div>
     </div>
     <script type="module" src="./script.js"></script>

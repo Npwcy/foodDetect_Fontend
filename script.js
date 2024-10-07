@@ -4,26 +4,50 @@ const selectImage = document.querySelector('.select-image');
 const inputFile = document.querySelector('#file');
 const imgArea = document.querySelector('.img-area');
 
-selectImage.addEventListener( 'click', function() {
+selectImage.addEventListener('click', function() {
     inputFile.click();
-})
+});
+
 inputFile.addEventListener('change', function() {
-    const image = this.files[0]
-    predict(image)
-    console.log(image);
-    const reader = new FileReader();
-    reader.onload = ()=> {
-        const allImg = imgArea.querySelectorAll('img');
-        allImg.forEach(item=> item.remove());
-        const imgUrl = reader.result;
-        const img = document.createElement('img');
-        img.src = imgUrl;
-        imgArea.appendChild(img);
-        imgArea.classList.add('active');
-        imgArea.dataset.img = image.name;
+    const image = this.files[0];
+    handleImageUpload(image);
+});
+
+// Drag and drop event listeners
+imgArea.addEventListener('dragover', function(event) {
+    event.preventDefault(); // Prevent default behavior
+    imgArea.classList.add('drag-over'); // Optional: Add a class to change the style
+});
+
+imgArea.addEventListener('dragleave', function() {
+    imgArea.classList.remove('drag-over'); // Remove class when dragging leaves
+});
+
+imgArea.addEventListener('drop', function(event) {
+    event.preventDefault(); // Prevent default behavior
+    imgArea.classList.remove('drag-over'); // Remove class on drop
+    const image = event.dataTransfer.files[0]; // Get the first file dropped
+    handleImageUpload(image);
+});
+
+function handleImageUpload(image) {
+    if (image) {
+        predict(image);
+        console.log(image);
+        const reader = new FileReader();
+        reader.onload = () => {
+            const allImg = imgArea.querySelectorAll('img');
+            allImg.forEach(item => item.remove());
+            const imgUrl = reader.result;
+            const img = document.createElement('img');
+            img.src = imgUrl;
+            imgArea.appendChild(img);
+            imgArea.classList.add('active');
+            imgArea.dataset.img = image.name;
+        };
+        reader.readAsDataURL(image);
     }
-    reader.readAsDataURL(image);
-})
+}
 
 document.querySelector('.navbar a').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default anchor behavior
@@ -86,13 +110,13 @@ async function predict(img_file) {
     * 
     *   I wrote sample image validator above you can modify or use that
     */
-    const formData = new FormData()
-    formData.append('file', img_file)
-   const response = await _axios.post('/predict/', formData)
-   // If there is an error, return ""
-   if(!response) {
-    return ""
-   }
-   // if nothing wrong, return data from backenf
-   return response.data
+    const formData = new FormData();
+    formData.append('file', img_file);
+    const response = await _axios.post('/predict/', formData);
+    // If there is an error, return ""
+    if (!response) {
+        return "";
+    }
+    // if nothing wrong, return data from backend
+    return response.data;
 }

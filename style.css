@@ -9,6 +9,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    flex-direction: column;
 }
 .bg {
     position: absolute;
@@ -72,7 +73,7 @@ body{
     font-size: 100px;
 }
 .img-area h3{
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 500;
     margin-bottom: 6px;
 }
@@ -140,4 +141,7 @@ body{
 }
 .submit:hover{
     background: #005dd1;
+}
+.claim-info {
+  width: 30vw;
 }

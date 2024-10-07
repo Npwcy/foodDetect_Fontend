@@ -36,6 +36,11 @@ document.querySelector('.navbar a').addEventListener('click', function(event) {
 *   @author GooDu-Dev <https://github.com/GooDu-dev>
 */
 
+/**
+ * Checking that image is really [jpg, png, jpeg]
+ * @param {file} file 
+ * @returns Promise<string | null>
+ */
 function checkImage(file) {
     // you can modify from this function to check valid image
     return new Promise((resolve, reject) => {
@@ -66,7 +71,12 @@ function checkImage(file) {
     });
 }
 
-async function predict(img) {
+/**
+ * Send post request to server
+ * @param {file} img_file 
+ * @returns {object}
+ */
+async function predict(img_file) {
     // please handle img before send to this function
     /*
     *   Things to handle
@@ -76,9 +86,9 @@ async function predict(img) {
     * 
     *   I wrote sample image validator above you can modify or use that
     */
-   const response = await _axios.post('/predict/', {
-    "file": img
-   })
+    const formData = new FormData()
+    formData.append('file', img_file)
+   const response = await _axios.post('/predict/', formData)
    // If there is an error, return ""
    if(!response) {
     return ""

@@ -142,6 +142,35 @@ body{
 .submit:hover{
     background: #005dd1;
 }
-.claim-info {
-  width: 30vw;
+.claim-info{
+    width: 30vw;
+}
+.popup{
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Popup content */
+.popup-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    width: 50vw;
+    height: 30vw;
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    color: black;
+    float: right;
+    height: fit-content;
+    font-size: 24px;
+    cursor: pointer;
 }

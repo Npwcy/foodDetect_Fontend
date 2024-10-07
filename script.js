@@ -3,26 +3,26 @@ import _axios from "./src/v1/services/axios.js"
 const selectImage = document.querySelector('.select-image');
 const inputFile = document.querySelector('#file');
 const imgArea = document.querySelector('.img-area');
+const submitImage = document.querySelector('.submit');
+let uploadImage;
 
 selectImage.addEventListener('click', function() {
     inputFile.click();
 });
-
 inputFile.addEventListener('change', function() {
     const image = this.files[0];
     handleImageUpload(image);
+    uploadImage = image;
 });
-
-// Drag and drop event listeners
 imgArea.addEventListener('dragover', function(event) {
     event.preventDefault(); // Prevent default behavior
     imgArea.classList.add('drag-over'); // Optional: Add a class to change the style
 });
-
+    
 imgArea.addEventListener('dragleave', function() {
     imgArea.classList.remove('drag-over'); // Remove class when dragging leaves
 });
-
+    
 imgArea.addEventListener('drop', function(event) {
     event.preventDefault(); // Prevent default behavior
     imgArea.classList.remove('drag-over'); // Remove class on drop
@@ -32,8 +32,6 @@ imgArea.addEventListener('drop', function(event) {
 
 function handleImageUpload(image) {
     if (image) {
-        predict(image);
-        console.log(image);
         const reader = new FileReader();
         reader.onload = () => {
             const allImg = imgArea.querySelectorAll('img');
@@ -47,7 +45,28 @@ function handleImageUpload(image) {
         };
         reader.readAsDataURL(image);
     }
-}
+};
+
+submitImage.addEventListener( 'click', function() {
+    predict(uploadImage)
+    console.log(uploadImage);
+
+    var popup = document.getElementById('myPopup');
+    popup.style.display = 'block';
+    
+    // ปิด Popup เมื่อคลิกปุ่ม X
+    var closeBtn = document.getElementsByClassName('close')[0];
+    closeBtn.onclick = function () {
+        popup.style.display = 'none';
+    }
+
+    // ปิด Popup เมื่อคลิกภายนอก Popup
+    window.onclick = function (event) {
+        if (event.target === popup) {
+            popup.style.display = 'none';
+        }
+    }
+})
 
 document.querySelector('.navbar a').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default anchor behavior

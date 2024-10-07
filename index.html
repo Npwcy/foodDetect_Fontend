@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="stylesheet" href="style.css">
-        <!-- Use axios for fetch api -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
     <title>Food quality detector</title>
 </head>
+
 <body>
-    <div class="bg"> </div>
+    <div class="bg"></div>
     <header class="header">
-        <img src ="img/logo.png" class="logo">
+        <img src="img/logo.png" class="logo">
         <nav class="navbar">
             <a href="#">History</a>
         </nav>
     </header>
+
+    <!-- Title and description outside the container -->
+    <div class="claim-info">
+        <h1 class="main-title">Product Claim System</h1>
+        <p class="description">Select the product image you wish to claim, then confirm your selection. Once submitted,
+            the information will be sent to the Doraemon admin team. Please wait for a response regarding your claim.
+        </p>
+    </div>
+
     <div class="container">
         <input type="file" id="file" accept="image/*" hidden>
         <div class="img-area" data-img="">
             <i class='bx bxs-cloud-upload icon'></i>
-            <h3>Upload Image</h3>
-            
+            <h3>Drop your image here or Upload Image</h3>
         </div>
         <button class="select-image">Select Image</button>
         <button class="submit">Submit</button>
     </div>
-
     <div id="myPopup" class="popup">
         <div class="popup-content">
             <span class="close">&times;</span>
@@ -34,7 +42,7 @@
             <p>Status : rotten or fresh</p>
         </div>
     </div>
-    
     <script type="module" src="./script.js"></script>
 </body>
+
 </html>
